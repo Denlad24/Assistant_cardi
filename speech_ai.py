@@ -430,10 +430,10 @@ class Speech_AI:
                         # Поддержание диалога
 
                         if (statement.find("создать заметку") != -1):
-                            dir_path = os.path.dirname(os.path.realpath(__file__))
-                            # access_rights = 0o755
-                            # os.mkdir("Assistant_cardi/zamet/tekst/", access_rights)
-                            # os.mkdir("/zamet/voice/", access_rights)
+                            dir_path = os.getcwd()
+                            print(dir_path)
+                            os.makedirs(str(dir_path) + "/zamet/tekst/")
+                            os.makedirs(str(dir_path) + "/zamet/voice/")
                             speak.Speak("Какую заметку вы хотите создать? Текстовую или голосовую")
                             r = sr.Recognizer()
                             with sr.Microphone() as source:  # use the default microphone as the audio source
