@@ -138,14 +138,14 @@ class Speech_AI:
         with self._microphone as source:
             self._recognizer.adjust_for_ambient_noise(source)
 
-        i = 0
-        my_file = open('test.txt', 'w', encoding='utf-8')
-        for root, dirs, files in os.walk("C:/"):
-            for file in files:
-                j = os.path.join(root, file)
-                my_file.write(j + '|' + file + '\n')
-                i = i + 1
-        my_file.close()
+        # i = 0
+        # my_file = open('test.txt', 'w', encoding='utf-8')
+        # for root, dirs, files in os.walk("C:/"):
+        #     for file in files:
+        #         j = os.path.join(root, file)
+        #         my_file.write(j + '|' + file + '\n')
+        #         i = i + 1
+        # my_file.close()
 
         try:
             while True:
@@ -430,6 +430,10 @@ class Speech_AI:
                         # Поддержание диалога
 
                         if (statement.find("создать заметку") != -1):
+                            dir_path = os.path.dirname(os.path.realpath(__file__))
+                            # access_rights = 0o755
+                            # os.mkdir("Assistant_cardi/zamet/tekst/", access_rights)
+                            # os.mkdir("/zamet/voice/", access_rights)
                             speak.Speak("Какую заметку вы хотите создать? Текстовую или голосовую")
                             r = sr.Recognizer()
                             with sr.Microphone() as source:  # use the default microphone as the audio source
@@ -443,7 +447,7 @@ class Speech_AI:
                                 FORMAT = pyaudio.paInt16
                                 CHANNELS = 2
                                 RATE = 44100
-                                RECORD_SECONDS = 5000
+                                RECORD_SECONDS = 500000
 
                                 p = pyaudio.PyAudio()
 
@@ -487,13 +491,15 @@ class Speech_AI:
                                 with sr.Microphone() as source:  # use the default microphone as the audio source
                                     audio = r.listen(source)
                                 WAVE_OUTPUT_FILENAME = r.recognize_google(audio, language="ru_RU")
-                                wf = wave.open(WAVE_OUTPUT_FILENAME + ".wav", 'wb')
+                                completeName = os.path.join(dir_path + "/zamet/voice/", WAVE_OUTPUT_FILENAME + ".wav")
+                                wf = wave.open(completeName, 'wb')
                                 wf.setnchannels(CHANNELS)
                                 wf.setsampwidth(p.get_sample_size(FORMAT))
                                 wf.setframerate(RATE)
                                 wf.writeframes(b''.join(frames))
                                 wf.close()
-                            if (statement.find("текстовую") != -1 ):
+                            if (statement2.find("текст") != -1):
+                                speak.Speak("Скажите, что вы хотите записать")
                                 with sr.Microphone() as source:  # use the default microphone as the audio source
                                     audio = r.listen(source)
                                 statement3 = r.recognize_google(audio, language="ru_RU")
@@ -502,7 +508,9 @@ class Speech_AI:
                                 with sr.Microphone() as source:  # use the default microphone as the audio source
                                     audio = r.listen(source)
                                 WAVE_OUTPUT_FILENAME = r.recognize_google(audio, language="ru_RU")
-                                f = open(WAVE_OUTPUT_FILENAME, 'w')
+
+                                completeName = os.path.join(dir_path + "/zamet/tekst/", WAVE_OUTPUT_FILENAME + ".txt")
+                                f = open(completeName, 'w')
                                 f.write(a)
                                 f.close()
 
