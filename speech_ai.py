@@ -514,6 +514,35 @@ class Speech_AI:
                                 f.write(a)
                                 f.close()
 
+                        if(statement.find("сохранить") != -1 and statement.find("пароль") != -1):
+                            speak.Speak("В каком виде вы хотите сохранить пароль?")
+                            r = sr.Recognizer()
+                            with sr.Microphone() as source:  # use the default microphone as the audio source
+                                audio = r.listen(source)
+                            statement2 = r.recognize_google(audio, language="ru_RU")
+                            if statement2.find("") == "шифрованный":
+                                speak.Speak("Назовите для чего будет пароль")
+                                with sr.Microphone() as source:  # use the default microphone as the audio source
+                                    audio = r.listen(source)
+                                statement3 = r.recognize_google(audio, language="ru_RU")
+                                speak.Speak("Назовите сам пароль")
+                                with sr.Microphone() as source:  # use the default microphone as the audio source
+                                    audio = r.listen(source)
+                                statement4 = r.recognize_google(audio, language="ru_RU")
+
+                            if statement2.find() == "в обычном":
+                                speak.Speak("Назовите для чего будет пароль")
+                                with sr.Microphone() as source:  # use the default microphone as the audio source
+                                    audio = r.listen(source)
+                                statement3 = r.recognize_google(audio, language="ru_RU")
+                                speak.Speak("Назовите сам пароль")
+                                with sr.Microphone() as source:  # use the default microphone as the audio source
+                                    audio = r.listen(source)
+                                statement4 = r.recognize_google(audio, language="ru_RU")
+                                f = open(statement3 + ".txt", 'w')
+                                f.write(statement4)
+                                f.close()
+
                         if (((statement.find("до свидания") != -1) or (statement.find("досвидания") != -1) or (
                                 statement.find("спи") != -1)) and (statement.find("система") != -1)):
                             sys.exit()
